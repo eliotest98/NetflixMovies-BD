@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" import="db.DbConnection"
+	import="org.bson.Document"%>
 <%
 	/*
 	Progetto coordinato GPS/IS anno accademico 2019/2020.
@@ -88,6 +89,7 @@
 	*/
 %>
 <%
+	DbConnection db = new DbConnection();
 	String pageName = "index.jsp";
 	String pageFolder = "";
 %>
@@ -119,7 +121,18 @@
 									<a href="_areaStudent\signUp.jsp"
 										class="btn btn-primary btn-lg btn-block" role="button"
 										aria-pressed="true">Registrati</a>
-									<p></p>
+									<p>
+										<%= db.getFirstMovie() %></p>
+									<p>
+										<%= db.getFirstMovie() %></p>
+
+									<%
+									 for(Document doc: db.getAllMovies()) {
+										 %>
+									<p><%= doc.toJson()%></p>
+									<%
+									 }
+									%>
 								</div>
 							</div>
 						</div>
