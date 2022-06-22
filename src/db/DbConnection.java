@@ -21,12 +21,8 @@ public class DbConnection {
 		collection = database.getCollection("NetflixMovies");
 	}
 	
-	public FindIterable<Document> getAllMovies() {
-		return collection.find(eq("type","Movie"));
-	}
-	
 	public Document getFirstMovie() {
-		return getAllMovies().first();
+		return collection.find(eq("type","Movie")).first();
 	}
 	
 }

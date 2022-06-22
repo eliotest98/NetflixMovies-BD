@@ -125,14 +125,6 @@
 										<%= db.getFirstMovie() %></p>
 									<p>
 										<%= db.getFirstMovie() %></p>
-
-									<%
-									 for(Document doc: db.getAllMovies()) {
-										 %>
-									<p><%= doc.toJson()%></p>
-									<%
-									 }
-									%>
 								</div>
 							</div>
 						</div>
