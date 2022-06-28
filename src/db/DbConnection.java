@@ -9,6 +9,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 
+import java.util.Arrays;
+
 public class DbConnection {
 
 	private MongoClient mongoClient;
@@ -22,7 +24,6 @@ public class DbConnection {
 	}
 	
 	public Document getFirstMovie() {
-		mongoClient = MongoClients.create("mongodb+srv://root:eliotesta98@cluster0.duppx.mongodb.net/NetflixMovies");
 		return collection.find(eq("type","Movie")).first();
 	}
 	
