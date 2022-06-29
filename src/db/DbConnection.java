@@ -9,8 +9,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 
-import java.util.Arrays;
-
 public class DbConnection {
 
 	private MongoClient mongoClient;
@@ -23,8 +21,23 @@ public class DbConnection {
 		collection = database.getCollection("NetflixMovies");
 	}
 	
-	public Document getFirstMovie() {
-		return collection.find(eq("type","Movie")).first();
+	public FindIterable<Document> getAllMovies() {
+		return collection.find(eq("type","Movie"));
+	}
+	
+	public FindIterable<Document> getAllTvSeries() {
+		return collection.find(eq("type","TV Show"));
+	}
+	
+	public FindIterable<Document> getAll() {
+		return collection.find();
+	}
+	
+	public void main() {
+		FindIterable<Document> tuples = getAllMovies();
+		for(Document doc: tuples) {
+			doc.get("type");
+		}
 	}
 	
 }
