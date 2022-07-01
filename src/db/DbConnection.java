@@ -33,13 +33,13 @@ public class DbConnection {
 		return collection.find().skip(numberSkip).limit(numberOfVisualization);
 	}
 	
-	public FindIterable<Document> selectType(int type,int numberOfVisualization) {
+	public FindIterable<Document> selectType(int type,int numberOfVisualization, int numberOfSkip) {
 		if(type == 1) {
-			return getAllMovies(numberOfVisualization,0);
+			return getAllMovies(numberOfVisualization,numberOfSkip);
 		} else if(type == 2) {
-			return getAllTvSeries(numberOfVisualization,0);
+			return getAllTvSeries(numberOfVisualization,numberOfSkip);
 		} else {
-			return getAll(numberOfVisualization,0);
+			return getAll(numberOfVisualization,numberOfSkip);
 		}
 	}
 
@@ -47,11 +47,11 @@ public class DbConnection {
 		return collection.countDocuments();
 	}
 
-	public long countTvSeries() {
+	private long countTvSeries() {
 		return collection.countDocuments(eq("type", "TV Show"));
 	}
 
-	public long countMovies() {
+	private long countMovies() {
 		return collection.countDocuments(eq("type", "Movie"));
 	}
 
@@ -67,7 +67,7 @@ public class DbConnection {
 		}
 	}
 
-	public void main() {
+	private void main() {
 		FindIterable<Document> tuples = getAllMovies(25, 0);
 		for (Document doc : tuples) {
 			doc.get("type");

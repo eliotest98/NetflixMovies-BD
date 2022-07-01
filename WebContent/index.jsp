@@ -20,7 +20,7 @@ String optRadio = request.getParameter("optradio");
 if (optRadio != null) {
 	selectionType = Integer.parseInt(optRadio);
 }
-int numberOfVisualization = 10;
+int numberOfVisualization = 25;
 int numberPage = 1;
 String pageLetter = request.getParameter("numberPage");
 if (pageLetter != null) {
@@ -325,25 +325,24 @@ table.table .avatar {
 		<div class="container-fluid text-center">
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(0)" type="radio" class="form-check-input"
-					name="optradio">ALL
+					onClick="saveRadio(0,1,0)" type="radio"
+					class="form-check-input" name="optradio">ALL
 				</label>
 			</div>
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(1)" type="radio" class="form-check-input"
-					name="optradio">MOVIES 
+					onClick="saveRadio(1,1,0)" type="radio"
+					class="form-check-input" name="optradio">MOVIES
 				</label>
 			</div>
 			<div class="form-check-inline disabled">
 				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(2)" type="radio" class="form-check-input"
-					name="optradio">TV SERIES
+					onClick="saveRadio(2,1,0)" type="radio"
+					class="form-check-input" name="optradio">TV SERIES
 				</label>
 			</div>
 		</div>
-		<br>
-		<br>
+		<br> <br>
 	</form>
 	<h2 style="justify-content: center; display: flex;">LIST</h2>
 
@@ -378,7 +377,8 @@ table.table .avatar {
 					</thead>
 					<tbody>
 						<%
-						FindIterable<Document> tuples = db.selectType(selectionType,numberOfVisualization);
+						FindIterable<Document> tuples = db.selectType(selectionType, numberOfVisualization,
+								(numberPage * numberOfVisualization) - numberOfVisualization);
 						for (Document doc : tuples) {
 						%>
 						<tr>
@@ -401,12 +401,16 @@ table.table .avatar {
 				</table>
 				<div class="clearfix">
 					<div class="hint-text">
-						Showing <b>5</b> out of <b>25</b> entries
+						Showing from <b><%=((numberOfVisualization*numberPage)-numberOfVisualization)%> to <%=numberOfVisualization*numberPage%></b> out of <b><%=db.selectCount(selectionType) %></b> entries
 					</div>
 					<ul class="pagination">
-						<li class="page-item disabled"><a href="#">Previous</a></li>
-						<li class="page-item"><label class="page-link"><%=numberPage %></label></li>
-						<li class="page-item"><a href="#" class="page-link">Next</a></li>
+						<li class="page-item disabled"><a
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',-1)"
+							href="#">Previous</a></li>
+						<li class="page-item"><label class="page-link"><%=numberPage%></label></li>
+						<li class="page-item"><a
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',1)"
+							href="#" class="page-link">Next</a></li>
 					</ul>
 				</div>
 			</div>
@@ -518,14 +522,66 @@ table.table .avatar {
 	</footer>
 </body>
 <script>
-	function saveRadio(number) {
-		if (location.href.includes("/index.jsp?optradio=")) {
-			const split = location.href.split("/index");
-			location.href = split[0] + "/index.jsp?optradio=" + number;
-			window.location.href.reload();
-		} else {
-			location.href = location.href + "/index.jsp?optradio=" + number;
-			window.location.href.reload();
+	function saveRadio(number, page, increment) {
+		if (increment == 0) {
+			if (location.href.includes("/index.jsp?optradio=")) {
+				if (page <= 1) {
+					page = 1;
+					const split = location.href.split("/index");
+					location.href = split[0] + "/index.jsp?optradio=" + number
+							+ "&numberPage=" + page;
+					window.location.href.reload();
+				} else {
+					const split = location.href.split("/index");
+					location.href = split[0] + "/index.jsp?optradio=" + number
+							+ "&numberPage=" + page;
+					window.location.href.reload();
+				}
+			} else {
+				location.href = location.href + "/index.jsp?optradio=" + number
+						+ "&numberPage=" + page;
+				window.location.href.reload();
+			}
+		} else if (increment == -1) {
+			page--;
+			if (location.href.includes("/index.jsp?optradio=")) {
+				if (page <= 1) {
+					page = 1;
+					const split = location.href.split("/index");
+					location.href = split[0] + "/index.jsp?optradio=" + number
+							+ "&numberPage=" + page;
+					window.location.href.reload();
+				} else {
+					const split = location.href.split("/index");
+					location.href = split[0] + "/index.jsp?optradio=" + number
+							+ "&numberPage=" + page;
+					window.location.href.reload();
+				}
+			} else {
+				location.href = location.href + "/index.jsp?optradio=" + number
+						+ "&numberPage=" + page;
+				window.location.href.reload();
+			}
+		} else if (increment == 1) {
+			page++;
+			if (location.href.includes("/index.jsp?optradio=")) {
+				if (page <= 1) {
+					page = 1;
+					const split = location.href.split("/index");
+					location.href = split[0] + "/index.jsp?optradio=" + number
+							+ "&numberPage=" + page;
+					window.location.href.reload();
+				} else {
+					const split = location.href.split("/index");
+					location.href = split[0] + "/index.jsp?optradio=" + number
+							+ "&numberPage=" + page;
+					window.location.href.reload();
+				}
+			} else {
+				location.href = location.href + "/index.jsp?optradio=" + number
+						+ "&numberPage=" + page;
+				window.location.href.reload();
+			}
 		}
 	}
 </script>
