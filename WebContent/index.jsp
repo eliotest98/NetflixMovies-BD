@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="ISO-8859-1" import="db.DbConnection"
-	import="org.bson.Document" import="com.mongodb.client.FindIterable"%>
+	pageEncoding="ISO-8859-1" import="db.DbQuarys"
+	import="org.bson.Document" import="com.mongodb.client.FindIterable" import="servlets.ServletAdd"%>
 <%
+
+
 /*
 	
-Il progetto prevede l'implementazione ...
+NetflixMovies è una web application nata dalla volontà di fornire alle persone un mezzo per ricercare e scoprire nuovi film e serie tv in maniera semplice rapida e veloce su Netflix
+
+Tecnologie: MongoDb, Java, HTML5, CSS
+
+Fonte Dataset: https://www.kaggle.com/datasets/shivamb/netflix-shows
 
 Teams:
 	Elio Testa
@@ -14,8 +20,12 @@ Teams:
 */
 %>
 <%
-DbConnection db = new DbConnection();
+
+DbQuarys db = new DbQuarys();
 int selectionType = 0;
+String idClicked = "";
+Document addDocument = new Document();
+
 String optRadio = request.getParameter("optradio");
 if (optRadio != null) {
 	selectionType = Integer.parseInt(optRadio);
@@ -417,7 +427,7 @@ table.table .avatar {
 								data-toggle="modal"><i class="material-icons"
 									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
 								href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i
-									class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+									class="material-icons" data-toggle="tooltip" title="Delete"><%idClicked=doc.get("show_id").toString(); %>&#xE872;</i></a>
 							</td>
 						</tr>
 						<%
@@ -446,7 +456,7 @@ table.table .avatar {
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form name="add" method="post" action="ServletAdd">
 					<div class="modal-header">
 						<h4 class="modal-title">Add Movie</h4>
 						<button type="button" class="close" data-dismiss="modal"
@@ -454,19 +464,19 @@ table.table .avatar {
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Type</label> <input type="text" class="form-control"
+							<label>Type</label> <input type="text" name="type" class="form-control"
 								required>
 						</div>
 						<div class="form-group">
-							<label>Title</label> <input type="email" class="form-control"
+							<label>Title</label> <input type="email" name="title" class="form-control"
 								required>
 						</div>
 						<div class="form-group">
-							<label>Director</label> <input type="text" class="form-control"
+							<label>Director</label> <input type="text" name="director" class="form-control"
 								required>
 						</div>
 						<div class="form-group">
-							<label>Duration</label> <input type="text" class="form-control"
+							<label>Duration</label> <input type="text" name="duration" class="form-control"
 								required>
 						</div>
 					</div>
@@ -528,7 +538,7 @@ table.table .avatar {
 							aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">
-						<p>Are you sure you want to delete these Records?</p>
+						<p>Are you sure you want to delete these Record?</p>
 						<p class="text-warning">
 							<small>This action cannot be undone.</small>
 						</p>
@@ -536,7 +546,7 @@ table.table .avatar {
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal"
 							value="Cancel"> <input type="submit"
-							class="btn btn-danger" value="Delete">
+							class="btn btn-danger" value="Delete"><%db.delete(idClicked);%></input>
 					</div>
 				</form>
 			</div>
