@@ -24,6 +24,10 @@ public class DbQuarys {
 		collection = database.getCollection("NetflixMovies");
 	}
 	
+	public void closeConnection() {
+		mongoClient.close();
+	}
+	
 	public FindIterable<Document> selectType(int type,int numberOfVisualization, int numberOfSkip) {
 		if(type == 1) {
 			return getAllMovies(numberOfVisualization,numberOfSkip);
@@ -52,10 +56,10 @@ public class DbQuarys {
 	}
 	
 	public void delete(String id) {
-		collection.deleteOne(eq("show_id",id));
+		collection.deleteOne(eq("_id",id));
 	}
 
-	public long countAll() {
+	private long countAll() {
 		return collection.countDocuments();
 	}
 
