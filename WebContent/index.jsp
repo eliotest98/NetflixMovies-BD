@@ -367,7 +367,7 @@ table.table .avatar {
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th></th>
+							<th>Info</th>
 							<th>Type</th>
 							<th>Title</th>
 							<th>Director</th>
@@ -382,7 +382,33 @@ table.table .avatar {
 						for (Document doc : tuples) {
 						%>
 						<tr>
-							<th>+</th>
+							<th>											
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#Mymodal">+
+							</button>
+								<div class="modal fade" id="Mymodal">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title">More information</h4>                                                             
+											</div> 
+											<div class="modal-body"><p>Cast: <%=doc.get("cast")%></p>
+											<p>Country: <%=doc.get("country")%></p>
+											<p>Release_year: <%=doc.get("release_year")%></p>
+											<p>Rating: <%=doc.get("rating")%></p>
+											<p>Listen_in: <%=doc.get("listen_in")%></p>
+											<h4 class="text-center">Description</h4>
+											<p><%=doc.get("description")%></p>
+											</div>   
+											<div class="modal-footer">
+												<button type="button" class="btn btn-danger" data-dismiss="modal">
+													Close
+												</button>
+										                                
+											</div>
+										</div>                                                                       
+									</div>                                      
+								</div>								
+							</th>
 							<td><%=doc.get("type")%></td>
 							<td><%=doc.get("title")%></td>
 							<td>89 Chiaroscuro Rd, Portland, USA</td>
@@ -416,7 +442,7 @@ table.table .avatar {
 			</div>
 		</div>
 	</div>
-	<!-- Edit Modal HTML -->
+	<!-- ADD Modal HTML -->
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -428,19 +454,19 @@ table.table .avatar {
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Name</label> <input type="text" class="form-control"
+							<label>Type</label> <input type="text" class="form-control"
 								required>
 						</div>
 						<div class="form-group">
-							<label>Email</label> <input type="email" class="form-control"
+							<label>Title</label> <input type="email" class="form-control"
 								required>
 						</div>
 						<div class="form-group">
-							<label>Address</label>
-							<textarea class="form-control" required></textarea>
+							<label>Director</label> <input type="text" class="form-control"
+								required>
 						</div>
 						<div class="form-group">
-							<label>Phone</label> <input type="text" class="form-control"
+							<label>Duration</label> <input type="text" class="form-control"
 								required>
 						</div>
 					</div>
@@ -453,6 +479,7 @@ table.table .avatar {
 			</div>
 		</div>
 	</div>
+	
 	<!-- Edit Modal HTML -->
 	<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
@@ -465,19 +492,19 @@ table.table .avatar {
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Name</label> <input type="text" class="form-control"
+							<label >Type </label> <input type="text" class="form-control" 
 								required>
 						</div>
 						<div class="form-group">
-							<label>Email</label> <input type="email" class="form-control"
+							<label>Title</label> <input type="text" class="form-control"
 								required>
 						</div>
 						<div class="form-group">
-							<label>Address</label>
-							<textarea class="form-control" required></textarea>
+							<label>Director</label> <input type="text" class="form-control"
+								required>
 						</div>
 						<div class="form-group">
-							<label>Phone</label> <input type="text" class="form-control"
+							<label>Duration</label> <input type="text" class="form-control"
 								required>
 						</div>
 					</div>
