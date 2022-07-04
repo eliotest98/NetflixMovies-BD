@@ -393,9 +393,9 @@ table.table .avatar {
 											</div> 
 											<div class="modal-body"><p>Cast: <%=doc.get("cast")%></p>
 											<p>Country: <%=doc.get("country")%></p>
-											<p>Release_year: <%=doc.get("release_year")%></p>
+											<p>Release Year: <%=doc.get("release_year")%></p>
 											<p>Rating: <%=doc.get("rating")%></p>
-											<p>Listen_in: <%=doc.get("listen_in")%></p>
+											<p>Kind: <%=doc.get("kind")%></p>
 											<h4 class="text-center">Description</h4>
 											<p><%=doc.get("description")%></p>
 											</div>   
@@ -411,8 +411,8 @@ table.table .avatar {
 							</th>
 							<td><%=doc.get("type")%></td>
 							<td><%=doc.get("title")%></td>
-							<td>89 Chiaroscuro Rd, Portland, USA</td>
-							<td>(171) 555-2222</td>
+							<td><%=doc.get("director")%></td>
+							<td><%=doc.get("duration")%></td>
 							<td><a href="#editEmployeeModal" class="edit"
 								data-toggle="modal"><i class="material-icons"
 									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
