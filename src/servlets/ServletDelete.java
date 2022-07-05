@@ -11,10 +11,6 @@ import org.bson.Document;
 
 import db.DbQuarys;
 
-/**
- * Servlet implementation class ServletEliminaEnteET.
- * Questa Servlet implementa la funzionalit� di eliminazione di un ente in base alla sua email.
- */
 @WebServlet("/ServletDelete")
 public class ServletDelete extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -46,9 +42,9 @@ public class ServletDelete extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-	  String id = request.getParameter("_id");
+	  Object id = request.getParameter("_id");
 	  DbQuarys db = new DbQuarys();
-	  db.delete(id);
+	  //db.delete(id);
 	  db.closeConnection();
 	  response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1");
   }

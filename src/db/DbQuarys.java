@@ -55,7 +55,12 @@ public class DbQuarys {
 		return result.getInsertedId();
 	}
 	
-	public void delete(String id) {
+	public void modify(Document doc) {
+		delete(doc.get("_id"));
+		add(doc);
+	}
+	
+	public void delete(Object id) {
 		collection.deleteOne(eq("_id",id));
 	}
 

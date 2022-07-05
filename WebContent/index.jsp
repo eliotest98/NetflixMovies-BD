@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1" import="db.DbQuarys"
-	import="org.bson.Document" import="com.mongodb.client.FindIterable" import="servlets.ServletAdd"%>
+	import="org.bson.Document" import="com.mongodb.client.FindIterable"
+	import="servlets.ServletAdd"%>
 <%
-
-
 /*
 	
 NetflixMovies è una web application nata dalla volontà di fornire alle persone un mezzo per ricercare e scoprire nuovi film e serie tv in maniera semplice rapida e veloce su Netflix
@@ -20,10 +19,8 @@ Teams:
 */
 %>
 <%
-
 DbQuarys db = new DbQuarys();
 int selectionType = 0;
-String idClicked = "";
 Document addDocument = new Document();
 
 String optRadio = request.getParameter("optradio");
@@ -335,20 +332,20 @@ table.table .avatar {
 		<div class="container-fluid text-center">
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(0,1,0)" type="radio"
-					class="form-check-input" name="optradio">ALL
+					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
+					name="optradio">ALL
 				</label>
 			</div>
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(1,1,0)" type="radio"
-					class="form-check-input" name="optradio">MOVIES
+					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
+					name="optradio">MOVIES
 				</label>
 			</div>
 			<div class="form-check-inline disabled">
 				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(2,1,0)" type="radio"
-					class="form-check-input" name="optradio">TV SERIES
+					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
+					name="optradio">TV SERIES
 				</label>
 			</div>
 		</div>
@@ -392,43 +389,55 @@ table.table .avatar {
 						for (Document doc : tuples) {
 						%>
 						<tr>
-							<th>											
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#Mymodal">+
-							</button>
+							<th>
+								<button type="button" class="btn btn-default"
+									data-toggle="modal" data-target="#Mymodal">+</button>
 								<div class="modal fade" id="Mymodal">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="modal-title">More information</h4>                                                             
-											</div> 
-											<div class="modal-body"><p>Cast: <%=doc.get("cast")%></p>
-											<p>Country: <%=doc.get("country")%></p>
-											<p>Release Year: <%=doc.get("release_year")%></p>
-											<p>Rating: <%=doc.get("rating")%></p>
-											<p>Kind: <%=doc.get("kind")%></p>
-											<h4 class="text-center">Description</h4>
-											<p><%=doc.get("description")%></p>
-											</div>   
-											<div class="modal-footer">
-												<button type="button" class="btn btn-danger" data-dismiss="modal">
-													Close
-												</button>
-										                                
+												<h4 class="modal-title">More information</h4>
 											</div>
-										</div>                                                                       
-									</div>                                      
-								</div>								
+											<div class="modal-body">
+												<p>
+													Cast:
+													<%=doc.get("cast")%></p>
+												<p>
+													Country:
+													<%=doc.get("country")%></p>
+												<p>
+													Release Year:
+													<%=doc.get("release_year")%></p>
+												<p>
+													Rating:
+													<%=doc.get("rating")%></p>
+												<p>
+													Kind:
+													<%=doc.get("kind")%></p>
+												<h4 class="text-center">Description</h4>
+												<p><%=doc.get("description")%></p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-danger"
+													data-dismiss="modal">Close</button>
+
+											</div>
+										</div>
+									</div>
+								</div>
 							</th>
 							<td><%=doc.get("type")%></td>
 							<td><%=doc.get("title")%></td>
 							<td><%=doc.get("director")%></td>
 							<td><%=doc.get("duration")%></td>
 							<td><a href="#editEmployeeModal" class="edit"
+								data-toggle="modal"
+								onClick="saveId('<%=doc.get("_id")%>')"><i
+									class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+								<a href="#deleteEmployeeModal"
+								onClick="saveId('<%=doc.get("_id")%>')"
 								data-toggle="modal"><i class="material-icons"
-									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
-								href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i
-									class="material-icons" data-toggle="tooltip" title="Delete"><%idClicked=doc.get("show_id").toString(); %>&#xE872;</i></a>
-							</td>
+									data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>
 						</tr>
 						<%
 						}
@@ -437,7 +446,9 @@ table.table .avatar {
 				</table>
 				<div class="clearfix">
 					<div class="hint-text">
-						Showing from <b><%=((numberOfVisualization*numberPage)-numberOfVisualization)%> to <%=numberOfVisualization*numberPage%></b> out of <b><%=db.selectCount(selectionType) %></b> entries
+						Showing from <b><%=((numberOfVisualization * numberPage) - numberOfVisualization)%>
+							to <%=numberOfVisualization * numberPage%></b> out of <b><%=db.selectCount(selectionType)%></b>
+						entries
 					</div>
 					<ul class="pagination">
 						<li class="page-item disabled"><a
@@ -464,20 +475,20 @@ table.table .avatar {
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Type</label> <input type="text" name="type" class="form-control"
-								required>
+							<label>Type</label> <input type="text" name="type"
+								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Title</label> <input type="email" name="title" class="form-control"
-								required>
+							<label>Title</label> <input type="email" name="title"
+								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Director</label> <input type="text" name="director" class="form-control"
-								required>
+							<label>Director</label> <input type="text" name="director"
+								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Duration</label> <input type="text" name="duration" class="form-control"
-								required>
+							<label>Duration</label> <input type="text" name="duration"
+								class="form-control" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -489,7 +500,6 @@ table.table .avatar {
 			</div>
 		</div>
 	</div>
-	
 	<!-- Edit Modal HTML -->
 	<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
@@ -502,26 +512,26 @@ table.table .avatar {
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label >Type </label> <input type="text" class="form-control" 
-								required>
+							<label>Type </label> <input name="type" type="text"
+								class="form-control" id="type" required>
 						</div>
 						<div class="form-group">
-							<label>Title</label> <input type="text" class="form-control"
-								required>
+							<label>Title</label> <input name="title" type="text"
+								class="form-control" id="title" required>
 						</div>
 						<div class="form-group">
-							<label>Director</label> <input type="text" class="form-control"
-								required>
+							<label>Director</label> <input name="director" type="text"
+								class="form-control" id="director" required>
 						</div>
 						<div class="form-group">
-							<label>Duration</label> <input type="text" class="form-control"
-								required>
+							<label>Duration</label> <input name="duration" type="text"
+								class="form-control" id="duration" required>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal"
-							value="Cancel"> <input type="submit" class="btn btn-info"
-							value="Save">
+							value="Cancel"> <input onClick="edit()" type="button"
+							class="btn btn-info" value="Save">
 					</div>
 				</form>
 			</div>
@@ -545,8 +555,8 @@ table.table .avatar {
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal"
-							value="Cancel"> <input type="submit"
-							class="btn btn-danger" value="Delete"><%db.delete(idClicked);%></input>
+							value="Cancel"> <input type="button" onClick="remove()"
+							class="btn btn-danger" value="Delete"></input>
 					</div>
 				</form>
 			</div>
@@ -559,6 +569,28 @@ table.table .avatar {
 	</footer>
 </body>
 <script>
+	var id;
+
+	function saveId(param) {
+		id = param;
+	}
+
+	function remove() {
+		location.href = location.href + "/ServletDelete?_id=" + id;
+		window.location.href.reload();
+	}
+	
+	function edit() {
+		type = document.getElementById('type').value;
+		title = document.getElementById('title').value;
+		director = document.getElementById('director').value;
+		duration = document.getElementById('duration').value;
+		location.href = location.href + "/ServletModify?_id=" + id + "&type="
+				+ type + "&title=" + title + "&director=" + director
+				+ "&duration=" + duration;
+		window.location.href.reload();
+	}
+
 	function saveRadio(number, page, increment) {
 		if (increment == 0) {
 			if (location.href.includes("/index.jsp?optradio=")) {
