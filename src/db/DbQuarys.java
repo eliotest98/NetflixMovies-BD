@@ -64,6 +64,10 @@ public class DbQuarys {
 		collection.deleteOne(eq("_id",id));
 	}
 
+	public FindIterable<Document> searchByTitle(String title,int numberOfVisualization, int numberSkip){
+		return collection.find(eq("title",title)).skip(numberSkip).limit(numberOfVisualization);
+	}
+	
 	private long countAll() {
 		return collection.countDocuments();
 	}
