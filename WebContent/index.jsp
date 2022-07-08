@@ -3,36 +3,36 @@
 	import="org.bson.Document" import="com.mongodb.client.FindIterable"
 	import="servlets.ServletAdd"%>
 <%
-/*
+	/*
+		
+	NetflixMovies ï¿½ una web application nata dalla volontï¿½ di fornire alle persone un mezzo per ricercare e scoprire nuovi film e serie tv in maniera semplice rapida e veloce su Netflix
 	
-NetflixMovies è una web application nata dalla volontà di fornire alle persone un mezzo per ricercare e scoprire nuovi film e serie tv in maniera semplice rapida e veloce su Netflix
-
-Tecnologie: MongoDb, Java, HTML5, CSS
-
-Fonte Dataset: https://www.kaggle.com/datasets/shivamb/netflix-shows
-
-Teams:
-	Elio Testa
-	Maria Concetta Schiavone
-	Veronica Marcantuono
-
-*/
+	Tecnologie: MongoDb, Java, HTML5, CSS
+	
+	Fonte Dataset: https://www.kaggle.com/datasets/shivamb/netflix-shows
+	
+	Teams:
+		Elio Testa
+		Maria Concetta Schiavone
+		Veronica Marcantuono
+	
+	*/
 %>
 <%
-DbQuarys db = new DbQuarys();
-int selectionType = 0;
-Document addDocument = new Document();
+	DbQuarys db = new DbQuarys();
+	int selectionType = 0;
+	Document addDocument = new Document();
 
-String optRadio = request.getParameter("optradio");
-if (optRadio != null) {
-	selectionType = Integer.parseInt(optRadio);
-}
-int numberOfVisualization = 25;
-int numberPage = 1;
-String pageLetter = request.getParameter("numberPage");
-if (pageLetter != null) {
-	numberPage = Integer.parseInt(pageLetter);
-}
+	String optRadio = request.getParameter("optradio");
+	if (optRadio != null) {
+		selectionType = Integer.parseInt(optRadio);
+	}
+	int numberOfVisualization = 25;
+	int numberPage = 1;
+	String pageLetter = request.getParameter("numberPage");
+	if (pageLetter != null) {
+		numberPage = Integer.parseInt(pageLetter);
+	}
 %>
 
 <!DOCTYPE html>
@@ -326,26 +326,72 @@ table.table .avatar {
 			src="images/NetflixMovies11.png"
 			style="width: 250px; height: 110px; padding-bottom: 10px;">
 		</a>
+
+		<div class="container">
+		<div class="ml-auto col-auto">
+			<div class="row">
+				<div class="col-lg card-margin">
+					<div class="card search-form">
+						<div class="card-body p-0">
+							<form id="search-form">
+								<div class="row">
+									<div class="col-12">
+										<div class="row no-gutters">
+											<div class="col-md p-0">
+											
+												<select class="form-control" id="exampleFormControlSelect1">
+													<option>Title</option>
+													<option>Director</option>
+													<option>Kind</option>
+
+												</select>
+											</div>
+											<div class="col-lg col-md col-sm p-0">
+												<input type="text" placeholder="Search..."
+													class="form-control" id="search" name="search">
+											</div>
+											<div class="col-lg-2 col-md-3 col-sm-12 p-0">
+												<button type="submit" class="btn btn-base">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24"
+														height="24" viewBox="0 0 24 24" fill="none"
+														stroke="currentColor" stroke-width="2"
+														stroke-linecap="round" stroke-linejoin="round"
+														class="feather feather-search">
+														<circle cx="11" cy="11" r="8"></circle>
+														<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
 	</nav>
+
 
 	<form>
 		<div class="container-fluid text-center">
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
 					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
-					name="optradio">ALL
+					name="optradioAll">ALL
 				</label>
 			</div>
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
 					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
-					name="optradio">MOVIES
+					name="optradioMovies">MOVIES
 				</label>
 			</div>
 			<div class="form-check-inline disabled">
 				<label class="form-check-label"> <input id="optradio"
 					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
-					name="optradio">TV SERIES
+					name="optradioSeries">TV SERIES
 				</label>
 			</div>
 		</div>
@@ -384,9 +430,9 @@ table.table .avatar {
 					</thead>
 					<tbody>
 						<%
-						FindIterable<Document> tuples = db.selectType(selectionType, numberOfVisualization,
-								(numberPage * numberOfVisualization) - numberOfVisualization);
-						for (Document doc : tuples) {
+							FindIterable<Document> tuples = db.selectType(selectionType, numberOfVisualization,
+									(numberPage * numberOfVisualization) - numberOfVisualization);
+							for (Document doc : tuples) {
 						%>
 						<tr>
 							<th>
@@ -431,16 +477,14 @@ table.table .avatar {
 							<td><%=doc.get("director")%></td>
 							<td><%=doc.get("duration")%></td>
 							<td><a href="#editEmployeeModal" class="edit"
-								data-toggle="modal"
-								onClick="saveId('<%=doc.get("_id")%>')"><i
+								data-toggle="modal" onClick="saveId('<%=doc.get("_id")%>')"><i
 									class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 								<a href="#deleteEmployeeModal"
-								onClick="saveId('<%=doc.get("_id")%>')"
-								data-toggle="modal"><i class="material-icons"
-									data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>
+								onClick="saveId('<%=doc.get("_id")%>')" data-toggle="modal"><i
+									class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>
 						</tr>
 						<%
-						}
+							}
 						%>
 					</tbody>
 				</table>
@@ -579,7 +623,7 @@ table.table .avatar {
 		location.href = location.href + "/ServletDelete?_id=" + id;
 		window.location.href.reload();
 	}
-	
+
 	function edit() {
 		type = document.getElementById('type').value;
 		title = document.getElementById('title').value;
