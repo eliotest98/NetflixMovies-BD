@@ -530,9 +530,30 @@ table.table .avatar {
 							<label>Director</label> <input type="text" name="director"
 								class="form-control" required>
 						</div>
+					
+						<div class="form-group">
+							<label>Cast </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
+						<div class="form-group">
+							<label>Country </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
+						<div class="form-group">
+							<label>Release_year </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
+						<div class="form-group">
+							<label>Rating </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
 						<div class="form-group">
 							<label>Duration</label> <input type="text" name="duration"
 								class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Kind </label> <input name="type" type="text"
+								class="form-control" id="type" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -567,9 +588,30 @@ table.table .avatar {
 							<label>Director</label> <input name="director" type="text"
 								class="form-control" id="director" required>
 						</div>
+						
+						<div class="form-group">
+							<label>Cast </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
+						<div class="form-group">
+							<label>Country </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
+						<div class="form-group">
+							<label>Release year </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
+						<div class="form-group">
+							<label>Rating </label> <input name="type" type="text"
+								class="form-control" id="type" required>
+						</div>
 						<div class="form-group">
 							<label>Duration</label> <input name="duration" type="text"
 								class="form-control" id="duration" required>
+						</div>
+						<div class="form-group">
+							<label>Kind </label> <input name="type" type="text"
+								class="form-control" id="type" required>
 						</div>
 					</div>
 					<div class="modal-footer">
