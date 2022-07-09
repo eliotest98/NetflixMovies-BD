@@ -2,6 +2,7 @@ package db;
 
 import org.bson.BsonValue;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -67,12 +68,12 @@ public class DbQuarys {
 	}
 	
 	public void modify(Document doc) {
-		delete(doc.get("_id"));
+		delete(doc.get("title").toString());
 		add(doc);
 	}
 	
-	public void delete(Object id) {
-		collection.deleteOne(eq("_id",id));
+	public void delete(String title) {
+		collection.deleteOne(eq("title",title));
 	}
 
 	public FindIterable<Document> searchByTitle(String title,int numberOfVisualization, int numberSkip){

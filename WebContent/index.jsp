@@ -37,7 +37,6 @@ if (pageLetter != null) {
 
 String searchCriteria = request.getParameter("searchCriteria");
 String typeSearch = request.getParameter("typeSearch");
-
 %>
 
 <!DOCTYPE html>
@@ -382,6 +381,78 @@ table.table .avatar {
 
 
 	<form>
+		<%
+		if (selectionType == 0) {
+		%>
+		<div class="container-fluid text-center">
+			<div class="form-check-inline">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
+					name="optradioAll" checked>ALL
+				</label>
+			</div>
+			<div class="form-check-inline">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
+					name="optradioMovies">MOVIES
+				</label>
+			</div>
+			<div class="form-check-inline disabled">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
+					name="optradioSeries">TV SERIES
+				</label>
+			</div>
+		</div>
+		<%
+		} else if (selectionType == 1) {
+		%>
+		<div class="container-fluid text-center">
+			<div class="form-check-inline">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
+					name="optradioAll">ALL
+				</label>
+			</div>
+			<div class="form-check-inline">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
+					name="optradioMovies" checked>MOVIES
+				</label>
+			</div>
+			<div class="form-check-inline disabled">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
+					name="optradioSeries">TV SERIES
+				</label>
+			</div>
+		</div>
+		<%
+		} else if (selectionType == 2) {
+		%>
+		<div class="container-fluid text-center">
+			<div class="form-check-inline">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
+					name="optradioAll">ALL
+				</label>
+			</div>
+			<div class="form-check-inline">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
+					name="optradioMovies">MOVIES
+				</label>
+			</div>
+			<div class="form-check-inline disabled">
+				<label class="form-check-label"> <input id="optradio"
+					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
+					name="optradioSeries" checked>TV SERIES
+				</label>
+			</div>
+		</div>
+		<%
+		} else {
+		%>
 		<div class="container-fluid text-center">
 			<div class="form-check-inline">
 				<label class="form-check-label"> <input id="optradio"
@@ -402,6 +473,9 @@ table.table .avatar {
 				</label>
 			</div>
 		</div>
+		<%
+		}
+		%>
 		<br> <br>
 	</form>
 	<h2 style="justify-content: center; display: flex;">LIST</h2>
@@ -437,59 +511,32 @@ table.table .avatar {
 					</thead>
 					<tbody>
 						<%
-						if(tuples == null) {
+						if (tuples == null) {
 							tuples = db.selectType(selectionType, numberOfVisualization,
-									(numberPage * numberOfVisualization) - numberOfVisualization);
+							(numberPage * numberOfVisualization) - numberOfVisualization);
 						}
 						for (Document doc : tuples) {
 						%>
 						<tr>
-							<th>
+							<td>
 								<button type="button" class="btn btn-default"
-									data-toggle="modal" data-target="#Mymodal">+</button>
-								<div class="modal fade" id="Mymodal">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h4 class="modal-title">More information</h4>
-											</div>
-											<div class="modal-body">
-												<p>
-													Cast:
-													<%=doc.get("cast")%></p>
-												<p>
-													Country:
-													<%=doc.get("country")%></p>
-												<p>
-													Release Year:
-													<%=doc.get("release_year")%></p>
-												<p>
-													Rating:
-													<%=doc.get("rating")%></p>
-												<p>
-													Kind:
-													<%=doc.get("kind")%></p>
-												<h4 class="text-center">Description</h4>
-												<p><%=doc.get("description")%></p>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-danger"
-													data-dismiss="modal">Close</button>
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</th>
+									data-toggle="modal" data-target="#Mymodal"
+									onClick="loadInformationP('<%=doc.get("cast")%>','<%=doc.get("country")%>','<%=doc.get("release_year")%>','<%=doc.get("rating")%>','<%=doc.get("kind")%>','<%=doc.get("description")%>')">+</button>
+							</td>
 							<td><%=doc.get("type")%></td>
 							<td><%=doc.get("title")%></td>
 							<td><%=doc.get("director")%></td>
 							<td><%=doc.get("duration")%></td>
 							<td><a href="#editEmployeeModal" class="edit"
-								data-toggle="modal" onClick="saveId('<%=doc.get("_id")%>')"><i
+								data-toggle="modal"
+								onClick="loadInformation('<%=doc.get("title")%>',
+								'<%=doc.get("type")%>','<%=doc.get("director")%>',
+								'<%=doc.get("duration")%>','<%=doc.get("cast")%>',
+								'<%=doc.get("country")%>','<%=doc.get("release_year")%>',
+								'<%=doc.get("rating")%>','<%=doc.get("description")%>','<%=doc.get("kind")%>')"><i
 									class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 								<a href="#deleteEmployeeModal"
-								onClick="saveId('<%=doc.get("_id")%>')" data-toggle="modal"><i
+								onClick="saveId('<%=doc.get("title")%>')" data-toggle="modal"><i
 									class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>
 						</tr>
 						<%
@@ -497,12 +544,12 @@ table.table .avatar {
 						%>
 					</tbody>
 				</table>
-				
-								<%	
-					long number = db.selectCount(selectionType,searchCriteria,typeSearch); 
-					if(number >= numberOfVisualization) {
+
+				<%
+				long number = db.selectCount(selectionType, searchCriteria, typeSearch);
+				if (number >= numberOfVisualization) {
 				%>
-				
+
 				<div class="clearfix">
 
 					<div class="hint-text">
@@ -520,13 +567,14 @@ table.table .avatar {
 							href="#" class="page-link">Next</a></li>
 					</ul>
 				</div>
-				<%} else {%>
-					<div class="clearfix">
+				<%
+				} else {
+				%>
+				<div class="clearfix">
 
 					<div class="hint-text">
 						Showing from <b><%=((numberOfVisualization * numberPage) - numberOfVisualization)%>
-							to <%=number%></b> out of <b><%=number%></b>
-						entries
+							to <%=number%></b> out of <b><%=number%></b> entries
 					</div>
 					<ul class="pagination">
 						<li class="page-item disabled"><a
@@ -538,8 +586,10 @@ table.table .avatar {
 							href="#" class="page-link">Next</a></li>
 					</ul>
 				</div>
-				
-				<%} %>
+
+				<%
+				}
+				%>
 			</div>
 		</div>
 	</div>
@@ -559,37 +609,40 @@ table.table .avatar {
 								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Title</label> <input type="email" name="title"
+							<label>Title</label> <input type="text" name="title"
 								class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Director</label> <input type="text" name="director"
 								class="form-control" required>
 						</div>
-
 						<div class="form-group">
-							<label>Cast </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Cast </label> <input type="text" name="cast"
+								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Country </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Country </label> <input type="text" name="country"
+								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Release_year </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Release Year </label> <input type="text"
+								name="release_year" class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Rating </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Rating </label> <input type="text" name="rating"
+								class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Duration</label> <input type="text" name="duration"
 								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Kind </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Kind </label> <input type="text" name="kind"
+								class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Description </label> <input type="text" name="description"
+								class="form-control" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -626,28 +679,32 @@ table.table .avatar {
 						</div>
 
 						<div class="form-group">
-							<label>Cast </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Cast </label> <input name="cast" type="text"
+								class="form-control" id="cast" required>
 						</div>
 						<div class="form-group">
-							<label>Country </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Country </label> <input name="country" type="text"
+								class="form-control" id="country" required>
 						</div>
 						<div class="form-group">
-							<label>Release year </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Release year </label> <input name="release_year"
+								type="text" class="form-control" id="release_year" required>
 						</div>
 						<div class="form-group">
-							<label>Rating </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Rating </label> <input name="rating" type="text"
+								class="form-control" id="rating" required>
 						</div>
 						<div class="form-group">
 							<label>Duration</label> <input name="duration" type="text"
 								class="form-control" id="duration" required>
 						</div>
 						<div class="form-group">
-							<label>Kind </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Kind </label> <input name="kind" type="text"
+								class="form-control" id="kind" required>
+						</div>
+						<div class="form-group">
+							<label>Description </label> <input name="description" type="text"
+								class="form-control" id="description" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -684,6 +741,30 @@ table.table .avatar {
 			</div>
 		</div>
 	</div>
+
+	<!-- Information Modal -->
+	<div class="modal fade" id="Mymodal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">More information</h4>
+				</div>
+				<div class="modal-body">
+					<p id="castP">Cast:</p>
+					<p id="countryP">Country:</p>
+					<p id="releaseP">Release Year:</p>
+					<p id="ratingP">Rating:</p>
+					<p id="kindP">Kind:</p>
+					<h4 class="text-center">Description</h4>
+					<p id="descriptionP">Descr</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
 	<br>
 	<br>
 	<footer class="page-footer font-small special-color-dark pt-4">
@@ -691,15 +772,45 @@ table.table .avatar {
 	</footer>
 </body>
 <script>
-	var id;
+	var title;
+
+	function loadInformationP(cast, country, release, rating,kind,description) {
+		document.getElementById("castP").innerText = "Cast: " + cast;
+		document.getElementById("countryP").innerText = "Country: " + country;
+		document.getElementById("releaseP").innerText = "Release Year: "
+				+ release;
+		document.getElementById("ratingP").innerText = "Rating: " + rating;
+		document.getElementById("kindP").innerText = "Kind: " + kind;
+		document.getElementById("descriptionP").innerText = description;
+	}
+
+	function loadInformation(titleP, typeP, directorP, durationP, castP,
+			countryP, release_yearP, ratingP, descriptionP, kindP) {
+		document.getElementById('title').value = titleP;
+		document.getElementById('type').value = typeP;
+		document.getElementById('director').value = directorP;
+		document.getElementById('duration').value = durationP;
+		document.getElementById('cast').value = castP;
+		document.getElementById('country').value = countryP;
+		document.getElementById('release_year').value = release_yearP;
+		document.getElementById('rating').value = ratingP;
+		document.getElementById('description').value = descriptionP;
+		document.getElementById('kind').value = kindP;
+	}
 
 	function saveId(param) {
-		id = param;
+		title = param;
 	}
 
 	function remove() {
-		location.href = location.href + "/ServletDelete?_id=" + id;
-		window.location.href.reload();
+		if (location.href.includes("/index.jsp?optradio=")) {
+			const split = location.href.split("/index.jsp");
+			location.href = split[0] + "/ServletDelete?title=" + title;
+			window.location.href.reload();
+		} else {
+			location.href = location.href + "/ServletDelete?title=" + title;
+			window.location.href.reload();
+		}
 	}
 
 	function edit() {
@@ -707,10 +818,29 @@ table.table .avatar {
 		title = document.getElementById('title').value;
 		director = document.getElementById('director').value;
 		duration = document.getElementById('duration').value;
-		location.href = location.href + "/ServletModify?_id=" + id + "&type="
-				+ type + "&title=" + title + "&director=" + director
-				+ "&duration=" + duration;
-		window.location.href.reload();
+		cast = document.getElementById('cast').value;
+		country = document.getElementById('country').value;
+		release_year = document.getElementById('release_year').value;
+		rating = document.getElementById('rating').value;
+		description = document.getElementById('description').value;
+		kind = document.getElementById('kind').value;
+		if (location.href.includes("/index.jsp?optradio=")) {
+			const split = location.href.split("/index.jsp");
+			location.href = split[0] + "/ServletModify?&type=" + type
+					+ "&title=" + title + "&director=" + director
+					+ "&duration=" + duration + "&cast=" + cast + "&country="
+					+ country + "&release_year=" + release_year + "&rating="
+					+ rating + "&description=" + description + "&kind=" + kind;
+			window.location.href.reload();
+		} else {
+			location.href = location.href + "/ServletModify?&type=" + type
+					+ "&title=" + title + "&director=" + director
+					+ "&duration=" + duration + "&cast=" + cast + "&country="
+					+ country + "&release_year=" + release_year + "&rating="
+					+ rating + "&description=" + description + "&kind=" + kind;
+			window.location.href.reload();
+		}
+
 	}
 
 	function saveRadio(number, page, increment) {
