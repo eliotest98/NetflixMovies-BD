@@ -38,13 +38,24 @@ public class DbQuarys {
 		}
 	}
 	
-	public long selectCount(int type) {
+	public long selectCount(int type,String searchCriteria,String typeSearch) {
 		if (type == 0) {
 			return countAll();
 		} else if (type == 2) {
 			return countTvSeries();
 		} else if (type == 1) {
 			return countMovies();
+		} else if(type == 3){
+			int typeSearchInt = Integer.parseInt(typeSearch);
+			  if(typeSearchInt == 0) {
+					return collection.countDocuments(eq("title",searchCriteria));
+			  } else if(typeSearchInt == 1) {
+					return collection.countDocuments(eq("director",searchCriteria));
+			  } else if(typeSearchInt == 2) {
+					return collection.countDocuments(eq("kind",searchCriteria));
+			  } else {
+				  return -2;
+			  }
 		} else {
 			return -1;
 		}
@@ -66,6 +77,14 @@ public class DbQuarys {
 
 	public FindIterable<Document> searchByTitle(String title,int numberOfVisualization, int numberSkip){
 		return collection.find(eq("title",title)).skip(numberSkip).limit(numberOfVisualization);
+	}
+	
+	public FindIterable<Document> searchByDirector(String director,int numberOfVisualization, int numberSkip){
+		return collection.find(eq("director",director)).skip(numberSkip).limit(numberOfVisualization);
+	}
+	
+	public FindIterable<Document> searchByKind(String kind,int numberOfVisualization, int numberSkip){
+		return collection.find(eq("kind",kind)).skip(numberSkip).limit(numberOfVisualization);
 	}
 	
 	private long countAll() {

@@ -3,36 +3,41 @@
 	import="org.bson.Document" import="com.mongodb.client.FindIterable"
 	import="servlets.ServletAdd"%>
 <%
-	/*
-		
-	NetflixMovies � una web application nata dalla volont� di fornire alle persone un mezzo per ricercare e scoprire nuovi film e serie tv in maniera semplice rapida e veloce su Netflix
+/*
 	
-	Tecnologie: MongoDb, Java, HTML5, CSS
-	
-	Fonte Dataset: https://www.kaggle.com/datasets/shivamb/netflix-shows
-	
-	Teams:
-		Elio Testa
-		Maria Concetta Schiavone
-		Veronica Marcantuono
-	
-	*/
+NetflixMovies � una web application nata dalla volont� di fornire alle persone un mezzo per ricercare e scoprire nuovi film e serie tv in maniera semplice rapida e veloce su Netflix
+
+Tecnologie: MongoDb, Java, HTML5, CSS
+
+Fonte Dataset: https://www.kaggle.com/datasets/shivamb/netflix-shows
+
+Teams:
+	Elio Testa
+	Maria Concetta Schiavone
+	Veronica Marcantuono
+
+*/
 %>
 <%
-	DbQuarys db = new DbQuarys();
-	int selectionType = 0;
-	Document addDocument = new Document();
+DbQuarys db = new DbQuarys();
+int selectionType = 0;
+int numberOfVisualization = 25;
+int numberPage = 1;
 
-	String optRadio = request.getParameter("optradio");
-	if (optRadio != null) {
-		selectionType = Integer.parseInt(optRadio);
-	}
-	int numberOfVisualization = 25;
-	int numberPage = 1;
-	String pageLetter = request.getParameter("numberPage");
-	if (pageLetter != null) {
-		numberPage = Integer.parseInt(pageLetter);
-	}
+String optRadio = request.getParameter("optradio");
+if (optRadio != null) {
+	selectionType = Integer.parseInt(optRadio);
+}
+
+String pageLetter = request.getParameter("numberPage");
+FindIterable<Document> tuples = (FindIterable<Document>) request.getSession().getAttribute("tuples");
+if (pageLetter != null) {
+	numberPage = Integer.parseInt(pageLetter);
+}
+
+String searchCriteria = request.getParameter("searchCriteria");
+String typeSearch = request.getParameter("typeSearch");
+
 %>
 
 <!DOCTYPE html>
@@ -328,48 +333,50 @@ table.table .avatar {
 		</a>
 
 		<div class="container">
-		<div class="ml-auto col-auto">
-			<div class="row">
-				<div class="col-lg card-margin">
-					<div class="card search-form">
-						<div class="card-body p-0">
-							<form id="search-form">
-								<div class="row">
-									<div class="col-12">
-										<div class="row no-gutters">
-											<div class="col-md p-0">
-											
-												<select class="form-control" id="exampleFormControlSelect1">
-													<option>Title</option>
-													<option>Director</option>
-													<option>Kind</option>
-
-												</select>
-											</div>
-											<div class="col-lg col-md col-sm p-0">
-												<input type="text" placeholder="Search..."
-													class="form-control" id="search" name="search">
-											</div>
-											<div class="col-lg-2 col-md-3 col-sm-12 p-0">
-												<button type="submit" class="btn btn-base">
-													<svg xmlns="http://www.w3.org/2000/svg" width="24"
-														height="24" viewBox="0 0 24 24" fill="none"
-														stroke="currentColor" stroke-width="2"
-														stroke-linecap="round" stroke-linejoin="round"
-														class="feather feather-search">
+			<div class="ml-auto col-auto">
+				<div class="row">
+					<div class="col-lg card-margin">
+						<div class="card search-form">
+							<div class="card-body p-0">
+								<form id="search-form" name="search" method="post"
+									action="ServletSearch">
+									<div class="row">
+										<div class="col-12">
+											<div class="row no-gutters">
+												<div class="col-md p-0">
+													<!-- selected = 0 -> Title, selected=1 -> Director, selected=2 -> kind -->
+													<select class="form-control" id="exampleFormControlSelect1"
+														name="item">
+														<option value="0">Title</option>
+														<option value="1">Director</option>
+														<option value="2">Kind</option>
+													</select>
+												</div>
+												<div class="col-lg col-md col-sm p-0">
+													<input type="text" placeholder="Search..."
+														class="form-control" id="search" name="search">
+												</div>
+												<div class="col-lg-2 col-md-3 col-sm-12 p-0">
+													<button type="submit" class="btn btn-base">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24"
+															height="24" viewBox="0 0 24 24" fill="none"
+															stroke="currentColor" stroke-width="2"
+															stroke-linecap="round" stroke-linejoin="round"
+															class="feather feather-search">
 														<circle cx="11" cy="11" r="8"></circle>
 														<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-												</button>
+													</button>
+
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 	</nav>
 
@@ -430,9 +437,11 @@ table.table .avatar {
 					</thead>
 					<tbody>
 						<%
-							FindIterable<Document> tuples = db.selectType(selectionType, numberOfVisualization,
+						if(tuples == null) {
+							tuples = db.selectType(selectionType, numberOfVisualization,
 									(numberPage * numberOfVisualization) - numberOfVisualization);
-							for (Document doc : tuples) {
+						}
+						for (Document doc : tuples) {
 						%>
 						<tr>
 							<th>
@@ -484,14 +493,21 @@ table.table .avatar {
 									class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td>
 						</tr>
 						<%
-							}
+						}
 						%>
 					</tbody>
 				</table>
+				
+								<%	
+					long number = db.selectCount(selectionType,searchCriteria,typeSearch); 
+					if(number >= numberOfVisualization) {
+				%>
+				
 				<div class="clearfix">
+
 					<div class="hint-text">
 						Showing from <b><%=((numberOfVisualization * numberPage) - numberOfVisualization)%>
-							to <%=numberOfVisualization * numberPage%></b> out of <b><%=db.selectCount(selectionType)%></b>
+							to <%=numberOfVisualization * numberPage%></b> out of <b><%=number%></b>
 						entries
 					</div>
 					<ul class="pagination">
@@ -504,6 +520,26 @@ table.table .avatar {
 							href="#" class="page-link">Next</a></li>
 					</ul>
 				</div>
+				<%} else {%>
+					<div class="clearfix">
+
+					<div class="hint-text">
+						Showing from <b><%=((numberOfVisualization * numberPage) - numberOfVisualization)%>
+							to <%=number%></b> out of <b><%=number%></b>
+						entries
+					</div>
+					<ul class="pagination">
+						<li class="page-item disabled"><a
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',-1)"
+							href="#">Previous</a></li>
+						<li class="page-item"><label class="page-link"><%=numberPage%></label></li>
+						<li class="page-item"><a
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',1)"
+							href="#" class="page-link">Next</a></li>
+					</ul>
+				</div>
+				
+				<%} %>
 			</div>
 		</div>
 	</div>
@@ -530,7 +566,7 @@ table.table .avatar {
 							<label>Director</label> <input type="text" name="director"
 								class="form-control" required>
 						</div>
-					
+
 						<div class="form-group">
 							<label>Cast </label> <input name="type" type="text"
 								class="form-control" id="type" required>
@@ -588,7 +624,7 @@ table.table .avatar {
 							<label>Director</label> <input name="director" type="text"
 								class="form-control" id="director" required>
 						</div>
-						
+
 						<div class="form-group">
 							<label>Cast </label> <input name="type" type="text"
 								class="form-control" id="type" required>
@@ -678,65 +714,15 @@ table.table .avatar {
 	}
 
 	function saveRadio(number, page, increment) {
-		if (increment == 0) {
-			if (location.href.includes("/index.jsp?optradio=")) {
-				if (page <= 1) {
-					page = 1;
-					const split = location.href.split("/index");
-					location.href = split[0] + "/index.jsp?optradio=" + number
-							+ "&numberPage=" + page;
-					window.location.href.reload();
-				} else {
-					const split = location.href.split("/index");
-					location.href = split[0] + "/index.jsp?optradio=" + number
-							+ "&numberPage=" + page;
-					window.location.href.reload();
-				}
-			} else {
-				location.href = location.href + "/index.jsp?optradio=" + number
-						+ "&numberPage=" + page;
-				window.location.href.reload();
-			}
-		} else if (increment == -1) {
-			page--;
-			if (location.href.includes("/index.jsp?optradio=")) {
-				if (page <= 1) {
-					page = 1;
-					const split = location.href.split("/index");
-					location.href = split[0] + "/index.jsp?optradio=" + number
-							+ "&numberPage=" + page;
-					window.location.href.reload();
-				} else {
-					const split = location.href.split("/index");
-					location.href = split[0] + "/index.jsp?optradio=" + number
-							+ "&numberPage=" + page;
-					window.location.href.reload();
-				}
-			} else {
-				location.href = location.href + "/index.jsp?optradio=" + number
-						+ "&numberPage=" + page;
-				window.location.href.reload();
-			}
-		} else if (increment == 1) {
-			page++;
-			if (location.href.includes("/index.jsp?optradio=")) {
-				if (page <= 1) {
-					page = 1;
-					const split = location.href.split("/index");
-					location.href = split[0] + "/index.jsp?optradio=" + number
-							+ "&numberPage=" + page;
-					window.location.href.reload();
-				} else {
-					const split = location.href.split("/index");
-					location.href = split[0] + "/index.jsp?optradio=" + number
-							+ "&numberPage=" + page;
-					window.location.href.reload();
-				}
-			} else {
-				location.href = location.href + "/index.jsp?optradio=" + number
-						+ "&numberPage=" + page;
-				window.location.href.reload();
-			}
+		if (location.href.includes("/index.jsp?optradio=")) {
+			const split = location.href.split("/index.jsp");
+			location.href = split[0] + "/ServletSwitchPage?numberPage=" + page
+					+ "&optradio=" + number + "&increment=" + increment;
+			window.location.href.reload();
+		} else {
+			location.href = location.href + "/ServletSwitchPage?numberPage="
+					+ page + "&optradio=" + number + "&increment=" + increment;
+			window.location.href.reload();
 		}
 	}
 </script>
