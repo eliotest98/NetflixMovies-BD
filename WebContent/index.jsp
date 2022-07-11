@@ -345,7 +345,7 @@ table.table .avatar {
 												<div class="col-md p-0">
 													<!-- selected = 0 -> Title, selected=1 -> Director, selected=2 -> kind -->
 													<select class="form-control" id="exampleFormControlSelect1"
-														name="item">
+														name="item" >
 														<option value="0">Title</option>
 														<option value="1">Director</option>
 														<option value="2">Kind</option>
@@ -356,7 +356,7 @@ table.table .avatar {
 														class="form-control" id="search" name="search">
 												</div>
 												<div class="col-lg-2 col-md-3 col-sm-12 p-0">
-													<button type="submit" class="btn btn-base">
+													<button type="submit" class="btn btn-base" id="searchbtn" >
 														<svg xmlns="http://www.w3.org/2000/svg" width="24"
 															height="24" viewBox="0 0 24 24" fill="none"
 															stroke="currentColor" stroke-width="2"
@@ -364,6 +364,7 @@ table.table .avatar {
 															class="feather feather-search">
 														<circle cx="11" cy="11" r="8"></circle>
 														<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+														
 													</button>
 
 												</div>
@@ -378,6 +379,9 @@ table.table .avatar {
 			</div>
 		</div>
 	</nav>
+<div class="alert alert-primary" role="alert" >
+Stai cercando per...
+</div>
 
 
 	<form>
@@ -625,12 +629,25 @@ table.table .avatar {
 								class="form-control" required>
 						</div>
 						<div class="form-group">
-							<label>Release Year </label> <input type="text"
-								name="release_year" class="form-control" required>
+							<label>Release Year </label> <input type="number"
+								name="release_year" class="form-control" min="" max="2022" required>
 						</div>
-						<div class="form-group">
-							<label>Rating </label> <input type="text" name="rating"
-								class="form-control" required>
+							<div>
+						<label>Select Rating </label> 
+						<select class="form-control" aria-label="Default select example">
+  							<option selected>Rating</option>
+  							<option value="1">TV-MA</option>
+  							<option value="2">PG-13</option>
+  							<option value="3">PG</option>
+  							<option value="4">TV-14</option>
+  							<option value="5">TV-Y</option>
+  							<option value="6">TV-PG</option>
+  							<option value="7">TV-G</option>
+  							<option value="8">R</option>
+  							<option value="9">TV-Y7</option>
+  							<option value="10">TV-PG</option>
+  							
+						</select>
 						</div>
 						<div class="form-group">
 							<label>Duration</label> <input type="text" name="duration"
@@ -688,11 +705,28 @@ table.table .avatar {
 						</div>
 						<div class="form-group">
 							<label>Release year </label> <input name="release_year"
-								type="text" class="form-control" id="release_year" required>
+								type="number" class="form-control" id="release_year" min="" max="2022" required>
 						</div>
 						<div class="form-group">
-							<label>Rating </label> <input name="rating" type="text"
+							<label>Rating </label> 
+							<input name="rating" type="text"
 								class="form-control" id="rating" required>
+								
+								<!-- va bene ma di default non lo prende -->
+							<!-- <select name="rating" id="rating" class="form-control">
+								<option selected></option>
+	  							<option value="1">TV-MA</option>
+	  							<option value="2">PG-13</option>
+	  							<option value="3">PG</option>
+	  							<option value="4">TV-14</option>
+	  							<option value="5">TV-Y</option>
+	  							<option value="6">TV-PG</option>
+	  							<option value="7">TV-G</option>
+	  							<option value="8">R</option>
+	  							<option value="9">TV-Y7</option>
+	  							<option value="10">TV-PG</option>
+	  							
+							</select>  -->
 						</div>
 						<div class="form-group">
 							<label>Duration</label> <input name="duration" type="text"
