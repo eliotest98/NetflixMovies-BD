@@ -345,7 +345,7 @@ table.table .avatar {
 												<div class="col-md p-0">
 													<!-- selected = 0 -> Title, selected=1 -> Director, selected=2 -> kind -->
 													<select class="form-control" id="exampleFormControlSelect1"
-														name="item" >
+														name="item">
 														<option value="0">Title</option>
 														<option value="1">Director</option>
 														<option value="2">Kind</option>
@@ -356,7 +356,7 @@ table.table .avatar {
 														class="form-control" id="search" name="search">
 												</div>
 												<div class="col-lg-2 col-md-3 col-sm-12 p-0">
-													<button type="submit" class="btn btn-base" id="searchbtn" >
+													<button type="submit" class="btn btn-base" id="searchbtn">
 														<svg xmlns="http://www.w3.org/2000/svg" width="24"
 															height="24" viewBox="0 0 24 24" fill="none"
 															stroke="currentColor" stroke-width="2"
@@ -364,7 +364,7 @@ table.table .avatar {
 															class="feather feather-search">
 														<circle cx="11" cy="11" r="8"></circle>
 														<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-														
+
 													</button>
 
 												</div>
@@ -379,10 +379,24 @@ table.table .avatar {
 			</div>
 		</div>
 	</nav>
-<div class="alert alert-primary" role="alert" >
-Stai cercando per...
-</div>
-
+	<%
+	if (selectionType == 3 && Integer.parseInt(typeSearch) == 0) {
+	%>
+	<div class="alert alert-primary" role="alert">
+		Research for: Title, String insert: <%=searchCriteria%></div>
+	<%
+	} else if (selectionType == 3 && Integer.parseInt(typeSearch) == 1) {
+	%>
+		<div class="alert alert-primary" role="alert">
+		Research for: Director, String insert: <%=searchCriteria%></div>
+	<%
+	} else if (selectionType == 3 && Integer.parseInt(typeSearch) == 2) {
+	%>
+		<div class="alert alert-primary" role="alert">
+		Research for: Kind, String insert: <%=searchCriteria%></div>
+	<%
+	}
+	%>
 
 	<form>
 		<%
@@ -609,8 +623,11 @@ Stai cercando per...
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Type</label> <input type="text" name="type"
-								class="form-control" required>
+							<label>Type</label> <select class="form-control"
+								aria-label="Default select example" name="type">
+								<option>TV Show</option>
+								<option>Movie</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label>Title</label> <input type="text" name="title"
@@ -630,24 +647,23 @@ Stai cercando per...
 						</div>
 						<div class="form-group">
 							<label>Release Year </label> <input type="number"
-								name="release_year" class="form-control" min="" max="2022" required>
+								name="release_year" class="form-control" min="" max="2022"
+								required>
 						</div>
-							<div>
-						<label>Select Rating </label> 
-						<select class="form-control" aria-label="Default select example">
-  							<option selected>Rating</option>
-  							<option value="1">TV-MA</option>
-  							<option value="2">PG-13</option>
-  							<option value="3">PG</option>
-  							<option value="4">TV-14</option>
-  							<option value="5">TV-Y</option>
-  							<option value="6">TV-PG</option>
-  							<option value="7">TV-G</option>
-  							<option value="8">R</option>
-  							<option value="9">TV-Y7</option>
-  							<option value="10">TV-PG</option>
-  							
-						</select>
+						<div>
+							<label>Select Rating </label> <select class="form-control"
+								aria-label="Default select example" name="rating">
+								<option>TV-MA</option>
+								<option>PG-13</option>
+								<option>PG</option>
+								<option>TV-14</option>
+								<option>TV-Y</option>
+								<option>TV-PG</option>
+								<option>TV-G</option>
+								<option>R</option>
+								<option>TV-Y7</option>
+								<option>TV-PG</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label>Duration</label> <input type="text" name="duration"
@@ -683,8 +699,11 @@ Stai cercando per...
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Type </label> <input name="type" type="text"
-								class="form-control" id="type" required>
+							<label>Type </label> <select name="type" id="type"
+								class="form-control">
+								<option>Tv Show</option>
+								<option>Movie</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label>Title</label> <input name="title" type="text"
@@ -705,28 +724,23 @@ Stai cercando per...
 						</div>
 						<div class="form-group">
 							<label>Release year </label> <input name="release_year"
-								type="number" class="form-control" id="release_year" min="" max="2022" required>
+								type="number" class="form-control" id="release_year" min=""
+								max="2022" required>
 						</div>
 						<div class="form-group">
-							<label>Rating </label> 
-							<input name="rating" type="text"
-								class="form-control" id="rating" required>
-								
-								<!-- va bene ma di default non lo prende -->
-							<!-- <select name="rating" id="rating" class="form-control">
-								<option selected></option>
-	  							<option value="1">TV-MA</option>
-	  							<option value="2">PG-13</option>
-	  							<option value="3">PG</option>
-	  							<option value="4">TV-14</option>
-	  							<option value="5">TV-Y</option>
-	  							<option value="6">TV-PG</option>
-	  							<option value="7">TV-G</option>
-	  							<option value="8">R</option>
-	  							<option value="9">TV-Y7</option>
-	  							<option value="10">TV-PG</option>
-	  							
-							</select>  -->
+							<label>Rating </label> <select name="rating" id="rating"
+								class="form-control">
+								<option>TV-MA</option>
+								<option>PG-13</option>
+								<option>PG</option>
+								<option>TV-14</option>
+								<option>TV-Y</option>
+								<option>TV-PG</option>
+								<option>TV-G</option>
+								<option>R</option>
+								<option>TV-Y7</option>
+								<option>TV-PG</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label>Duration</label> <input name="duration" type="text"
@@ -808,7 +822,7 @@ Stai cercando per...
 <script>
 	var title;
 
-	function loadInformationP(cast, country, release, rating,kind,description) {
+	function loadInformationP(cast, country, release, rating, kind, description) {
 		document.getElementById("castP").innerText = "Cast: " + cast;
 		document.getElementById("countryP").innerText = "Country: " + country;
 		document.getElementById("releaseP").innerText = "Release Year: "
@@ -821,15 +835,27 @@ Stai cercando per...
 	function loadInformation(titleP, typeP, directorP, durationP, castP,
 			countryP, release_yearP, ratingP, descriptionP, kindP) {
 		document.getElementById('title').value = titleP;
-		document.getElementById('type').value = typeP;
 		document.getElementById('director').value = directorP;
 		document.getElementById('duration').value = durationP;
 		document.getElementById('cast').value = castP;
 		document.getElementById('country').value = countryP;
 		document.getElementById('release_year').value = release_yearP;
-		document.getElementById('rating').value = ratingP;
 		document.getElementById('description').value = descriptionP;
 		document.getElementById('kind').value = kindP;
+		selectObjTitle = document.getElementById('type');
+		for (var i = 0; i < selectObjTitle.options.length; i++) {
+			if (selectObjTitle.options[i].text == typeP) {
+				selectObjTitle.options[i].selected = true;
+				break;
+			}
+		}
+		selectObj = document.getElementById('rating');
+		for (var i = 0; i < selectObj.options.length; i++) {
+			if (selectObj.options[i].text == ratingP) {
+				selectObj.options[i].selected = true;
+				break;
+			}
+		}
 	}
 
 	function saveId(param) {
@@ -848,14 +874,19 @@ Stai cercando per...
 	}
 
 	function edit() {
-		type = document.getElementById('type').value;
+		selectedObjType = document.getElementById('type');
+		type = selectedObjType.options[selectedObjType.selectedIndex].text;
+
 		title = document.getElementById('title').value;
 		director = document.getElementById('director').value;
 		duration = document.getElementById('duration').value;
 		cast = document.getElementById('cast').value;
 		country = document.getElementById('country').value;
 		release_year = document.getElementById('release_year').value;
-		rating = document.getElementById('rating').value;
+
+		selectObjRating = document.getElementById('rating');
+		rating = selectObjRating.options[selectObjRating.selectedIndex].text;
+
 		description = document.getElementById('description').value;
 		kind = document.getElementById('kind').value;
 		if (location.href.includes("/index.jsp?optradio=")) {
