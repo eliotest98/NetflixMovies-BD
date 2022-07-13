@@ -309,6 +309,15 @@ table.table .avatar {
 	font-weight: normal;
 }
 
+.alert-primary {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+}
+
+.outer {
+	background-color: #e9ecef;
+}
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
 	.sidenav {
@@ -327,8 +336,8 @@ table.table .avatar {
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 		<a class="navbar-brand" href="index.jsp"> <img
-			src="images/NetflixMovies11.png"
-			style="width: 250px; height: 110px; padding-bottom: 10px;">
+			src="images/NetflixMovies1.png"
+			style="width: 250px; height: 110px; padding-bottom: 10px; padding-top:4px;">
 		</a>
 
 		<div class="container">
@@ -379,6 +388,8 @@ table.table .avatar {
 			</div>
 		</div>
 	</nav>
+	
+	<div class="outer">
 	<%
 	if (selectionType == 3 && Integer.parseInt(typeSearch) == 0) {
 	%>
@@ -397,7 +408,7 @@ table.table .avatar {
 	<%
 	}
 	%>
-
+	
 	<form>
 		<%
 		if (selectionType == 0) {
@@ -493,12 +504,26 @@ table.table .avatar {
 		</div>
 		<%
 		}
-		%>
-		<br> <br>
+		%>		
 	</form>
+	</div>
+	<br> <br>
 	<h2 style="justify-content: center; display: flex;">LIST</h2>
-
-
+	
+	<div class="container">
+  <div class="row">
+      <div class="col-8 col-md-2">     
+      <h6 style="margin-left: 5px;">Choose row view</h6>   
+        <select class="custom-select custom-select-sm" id="choose">
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>  
+        </div>
+        </div>
+        </div>
+	
 	<div class="container-xl">
 		<div class="table-responsive">
 			<div class="table-wrapper">
