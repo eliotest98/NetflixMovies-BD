@@ -46,6 +46,6 @@ public class ServletDelete extends HttpServlet {
 		DbQuarys db = new DbQuarys();
 		db.delete(title);
 		request.getSession().setAttribute("tuples", null);
-		response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1");
+		response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1&numberOfVisualization=10");
 	}
 }

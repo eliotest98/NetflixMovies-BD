@@ -21,8 +21,13 @@ Teams:
 <%
 DbQuarys db = new DbQuarys();
 int selectionType = 0;
-int numberOfVisualization = 25;
 int numberPage = 1;
+int numberOfVisualization = 10;
+
+String numberOfVis = request.getParameter("numberOfVisualization");
+if (numberOfVis != null) {
+	numberOfVisualization = Integer.parseInt(numberOfVis);
+}
 
 String optRadio = request.getParameter("optradio");
 if (optRadio != null) {
@@ -35,8 +40,14 @@ if (pageLetter != null) {
 	numberPage = Integer.parseInt(pageLetter);
 }
 
-String searchCriteria = request.getParameter("searchCriteria");
-String typeSearch = request.getParameter("typeSearch");
+String searchCriteria = "";
+if(searchCriteria != null) {
+	searchCriteria = request.getParameter("searchCriteria");
+}
+String typeSearch = "";
+if(typeSearch!=null) {
+	typeSearch= request.getParameter("typeSearch");
+}
 %>
 
 <!DOCTYPE html>
@@ -310,8 +321,8 @@ table.table .avatar {
 }
 
 .alert-primary {
-    background-color: #e9ecef;
-    border-color: #e9ecef;
+	background-color: #e9ecef;
+	border-color: #e9ecef;
 }
 
 .outer {
@@ -337,7 +348,7 @@ table.table .avatar {
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 		<a class="navbar-brand" href="index.jsp"> <img
 			src="images/NetflixMovies1.png"
-			style="width: 250px; height: 110px; padding-bottom: 10px; padding-top:4px;">
+			style="width: 250px; height: 110px; padding-bottom: 10px; padding-top: 4px;">
 		</a>
 
 		<div class="container">
@@ -347,7 +358,7 @@ table.table .avatar {
 						<div class="card search-form">
 							<div class="card-body p-0">
 								<form id="search-form" name="search" method="post"
-									action="ServletSearch">
+									action="ServletSearch?numberOfVisualization=<%=numberOfVisualization %>">
 									<div class="row">
 										<div class="col-12">
 											<div class="row no-gutters">
@@ -388,142 +399,183 @@ table.table .avatar {
 			</div>
 		</div>
 	</nav>
-	
+
 	<div class="outer">
-	<%
-	if (selectionType == 3 && Integer.parseInt(typeSearch) == 0) {
-	%>
-	<div class="alert alert-primary" role="alert">
-		Research for: Title, String insert: <%=searchCriteria%></div>
-	<%
-	} else if (selectionType == 3 && Integer.parseInt(typeSearch) == 1) {
-	%>
+		<%
+		if (selectionType == 3 && Integer.parseInt(typeSearch) == 0) {
+		%>
 		<div class="alert alert-primary" role="alert">
-		Research for: Director, String insert: <%=searchCriteria%></div>
-	<%
-	} else if (selectionType == 3 && Integer.parseInt(typeSearch) == 2) {
-	%>
+			Research for: Title, String insert:
+			<%=searchCriteria%></div>
+		<%
+		} else if (selectionType == 3 && Integer.parseInt(typeSearch) == 1) {
+		%>
 		<div class="alert alert-primary" role="alert">
-		Research for: Kind, String insert: <%=searchCriteria%></div>
-	<%
-	}
-	%>
-	
-	<form>
+			Research for: Director, String insert:
+			<%=searchCriteria%></div>
 		<%
-		if (selectionType == 0) {
+		} else if (selectionType == 3 && Integer.parseInt(typeSearch) == 2) {
 		%>
-		<div class="container-fluid text-center">
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
-					name="optradioAll" checked>ALL
-				</label>
-			</div>
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
-					name="optradioMovies">MOVIES
-				</label>
-			</div>
-			<div class="form-check-inline disabled">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
-					name="optradioSeries">TV SERIES
-				</label>
-			</div>
-		</div>
-		<%
-		} else if (selectionType == 1) {
-		%>
-		<div class="container-fluid text-center">
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
-					name="optradioAll">ALL
-				</label>
-			</div>
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
-					name="optradioMovies" checked>MOVIES
-				</label>
-			</div>
-			<div class="form-check-inline disabled">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
-					name="optradioSeries">TV SERIES
-				</label>
-			</div>
-		</div>
-		<%
-		} else if (selectionType == 2) {
-		%>
-		<div class="container-fluid text-center">
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
-					name="optradioAll">ALL
-				</label>
-			</div>
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
-					name="optradioMovies">MOVIES
-				</label>
-			</div>
-			<div class="form-check-inline disabled">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
-					name="optradioSeries" checked>TV SERIES
-				</label>
-			</div>
-		</div>
-		<%
-		} else {
-		%>
-		<div class="container-fluid text-center">
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(0,1,0)" type="radio" class="form-check-input"
-					name="optradioAll">ALL
-				</label>
-			</div>
-			<div class="form-check-inline">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(1,1,0)" type="radio" class="form-check-input"
-					name="optradioMovies">MOVIES
-				</label>
-			</div>
-			<div class="form-check-inline disabled">
-				<label class="form-check-label"> <input id="optradio"
-					onClick="saveRadio(2,1,0)" type="radio" class="form-check-input"
-					name="optradioSeries">TV SERIES
-				</label>
-			</div>
-		</div>
+		<div class="alert alert-primary" role="alert">
+			Research for: Kind, String insert:
+			<%=searchCriteria%></div>
 		<%
 		}
-		%>		
-	</form>
+		%>
+
+		<form>
+			<%
+			if (selectionType == 0) {
+			%>
+			<div class="container-fluid text-center">
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(0,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioAll" checked>ALL
+					</label>
+				</div>
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(1,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioMovies">MOVIES
+					</label>
+				</div>
+				<div class="form-check-inline disabled">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(2,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioSeries">TV SERIES
+					</label>
+				</div>
+			</div>
+			<%
+			} else if (selectionType == 1) {
+			%>
+			<div class="container-fluid text-center">
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(0,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioAll">ALL
+					</label>
+				</div>
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(1,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioMovies" checked>MOVIES
+					</label>
+				</div>
+				<div class="form-check-inline disabled">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(2,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioSeries">TV SERIES
+					</label>
+				</div>
+			</div>
+			<%
+			} else if (selectionType == 2) {
+			%>
+			<div class="container-fluid text-center">
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(0,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioAll">ALL
+					</label>
+				</div>
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(1,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioMovies">MOVIES
+					</label>
+				</div>
+				<div class="form-check-inline disabled">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(2,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioSeries" checked>TV SERIES
+					</label>
+				</div>
+			</div>
+			<%
+			} else {
+			%>
+			<div class="container-fluid text-center">
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(0,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioAll">ALL
+					</label>
+				</div>
+				<div class="form-check-inline">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(1,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioMovies">MOVIES
+					</label>
+				</div>
+				<div class="form-check-inline disabled">
+					<label class="form-check-label"> <input id="optradio"
+						onClick="saveRadio(2,1,0,'<%=numberOfVisualization%>')" type="radio" class="form-check-input"
+						name="optradioSeries">TV SERIES
+					</label>
+				</div>
+			</div>
+			<%
+			}
+			%>
+		</form>
 	</div>
-	<br> <br>
+	<br>
+	<br>
 	<h2 style="justify-content: center; display: flex;">LIST</h2>
-	
+
 	<div class="container">
-  <div class="row">
-      <div class="col-8 col-md-2">     
-      <h6 style="margin-left: 5px;">Choose row view</h6>   
-        <select class="custom-select custom-select-sm" id="choose">
-          <option value="10" selected>10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>  
-        </div>
-        </div>
-        </div>
-	
+		<div class="row">
+			<div class="col-8 col-md-2">
+				<h6 style="margin-left: 5px;">Choose row view</h6>
+				<%
+				if (numberOfVisualization == 10) {
+				%>
+				<select class="custom-select custom-select-sm" id="choose"
+					onchange="choseNumberOfTuples('<%=numberPage%>','<%=selectionType%>')">
+					<option selected>10</option>
+					<option>25</option>
+					<option>50</option>
+					<option>100</option>
+				</select>
+				<%
+				} else if (numberOfVisualization == 25) {
+				%>
+				<select class="custom-select custom-select-sm" id="choose"
+					onchange="choseNumberOfTuples('<%=numberPage%>','<%=selectionType%>')">
+					<option>10</option>
+					<option selected>25</option>
+					<option>50</option>
+					<option>100</option>
+				</select>
+				<%
+				} else if (numberOfVisualization == 50) {
+				%>
+				<select class="custom-select custom-select-sm" id="choose"
+					onchange="choseNumberOfTuples('<%=numberPage%>','<%=selectionType%>')">
+					<option>10</option>
+					<option>25</option>
+					<option selected>50</option>
+					<option>100</option>
+				</select>
+				<%
+				} else if (numberOfVisualization == 100) {
+				%>
+				<select class="custom-select custom-select-sm" id="choose"
+					onchange="choseNumberOfTuples('<%=numberPage%>','<%=selectionType%>')">
+					<option>10</option>
+					<option>25</option>
+					<option>50</option>
+					<option selected>100</option>
+				</select>
+				<%
+				}
+				%>
+			</div>
+		</div>
+	</div>
+
 	<div class="container-xl">
 		<div class="table-responsive">
 			<div class="table-wrapper">
@@ -602,11 +654,11 @@ table.table .avatar {
 					</div>
 					<ul class="pagination">
 						<li class="page-item disabled"><a
-							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',-1)"
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',-1,'<%=numberOfVisualization%>')"
 							href="#">Previous</a></li>
 						<li class="page-item"><label class="page-link"><%=numberPage%></label></li>
 						<li class="page-item"><a
-							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',1)"
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',1,'<%=numberOfVisualization%>')"
 							href="#" class="page-link">Next</a></li>
 					</ul>
 				</div>
@@ -621,11 +673,11 @@ table.table .avatar {
 					</div>
 					<ul class="pagination">
 						<li class="page-item disabled"><a
-							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',-1)"
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',-1,,'<%=numberOfVisualization%>')"
 							href="#">Previous</a></li>
 						<li class="page-item"><label class="page-link"><%=numberPage%></label></li>
 						<li class="page-item"><a
-							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',1)"
+							onClick="saveRadio('<%=selectionType%>','<%=numberPage%>',1,'<%=numberOfVisualization%>')"
 							href="#" class="page-link">Next</a></li>
 					</ul>
 				</div>
@@ -847,6 +899,25 @@ table.table .avatar {
 <script>
 	var title;
 
+	function choseNumberOfTuples(page,number) {
+		if (location.href.includes("/index.jsp?")) {
+			selectObjTitle = document.getElementById('choose');
+			numberOfVisualization = selectObjTitle.options[selectObjTitle.selectedIndex].text;
+			const split = location.href.split("/index.jsp");
+			location.href = split[0] + "/ServletNumberOfVisualization?numberOfVisualization="
+					+ numberOfVisualization + "&numberPage="
+					+ page + "&optradio=" + number;
+			window.location.href.reload();
+		} else {
+			selectObjTitle = document.getElementById('choose');
+			numberOfVisualization = selectObjTitle.options[selectObjTitle.selectedIndex].text;
+			location.href = location.href + "/ServletNumberOfVisualization?numberOfVisualization="
+					+ numberOfVisualization + "&numberPage="
+					+ page + "&optradio=" + number;
+			window.location.href.reload();
+		}
+	}
+
 	function loadInformationP(cast, country, release, rating, kind, description) {
 		document.getElementById("castP").innerText = "Cast: " + cast;
 		document.getElementById("countryP").innerText = "Country: " + country;
@@ -888,7 +959,7 @@ table.table .avatar {
 	}
 
 	function remove() {
-		if (location.href.includes("/index.jsp?optradio=")) {
+		if (location.href.includes("/index.jsp?")) {
 			const split = location.href.split("/index.jsp");
 			location.href = split[0] + "/ServletDelete?title=" + title;
 			window.location.href.reload();
@@ -933,15 +1004,15 @@ table.table .avatar {
 
 	}
 
-	function saveRadio(number, page, increment) {
-		if (location.href.includes("/index.jsp?optradio=")) {
+	function saveRadio(number, page, increment,numberOfVis) {
+		if (location.href.includes("/index.jsp?")) {
 			const split = location.href.split("/index.jsp");
 			location.href = split[0] + "/ServletSwitchPage?numberPage=" + page
-					+ "&optradio=" + number + "&increment=" + increment;
+					+ "&optradio=" + number + "&increment=" + increment + "&numberOfVisualization="+numberOfVis;
 			window.location.href.reload();
 		} else {
 			location.href = location.href + "/ServletSwitchPage?numberPage="
-					+ page + "&optradio=" + number + "&increment=" + increment;
+					+ page + "&optradio=" + number + "&increment=" + increment + "&numberOfVisualization="+numberOfVis;
 			window.location.href.reload();
 		}
 	}

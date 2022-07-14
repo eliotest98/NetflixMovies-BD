@@ -66,6 +66,6 @@ public class ServletAdd extends HttpServlet {
 		doc.append("description", description);
 		db.add(doc);
 		db.closeConnection();
-		response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1");
+		response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1&numberOfVisualization=10");
 	}
 }

@@ -66,6 +66,6 @@ public class ServletModify extends HttpServlet {
 		db.modify(doc);
 		db.closeConnection();
 		request.getSession().setAttribute("tuples", null);
-		response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1");
+		response.sendRedirect(request.getContextPath() + "/index.jsp?optradio=0&numberPage=1&numberOfVisualization=10");
 	}
 }
